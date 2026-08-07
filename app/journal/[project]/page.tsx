@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { getProjectBySlug, getAllProjects } from "@/lib/projects";
+import { Stamp } from "@/components/Stamp";
+import { Timeline } from "@/components/Timeline";
 
 export async function generateStaticParams() {
   const projects = getAllProjects();
@@ -24,9 +26,12 @@ export default async function ProjectPage({
       <div className="max-w-3xl mx-auto py-12 px-6">
         <div className="border-l-4 border-ledger pl-6">
           <h1 className="font-display text-4xl font-medium">{project.title}</h1>
-          <p className="font-mono text-xs text-ink-faded mt-2">
-            {project.startDate} → {project.lastUpdated} · {project.status}
-          </p>
+          <div className="flex items-center gap-3 mt-2">
+            <p className="font-mono text-xs text-ink-faded">
+              {project.startDate} → {project.lastUpdated}
+            </p>
+            <Stamp status={project.status} />
+          </div>
           <div className="flex gap-2 mt-3">
             {project.tags.map((tag) => (
               <span
@@ -38,7 +43,12 @@ export default async function ProjectPage({
             ))}
           </div>
         </div>
-
+        {project.timeline?.length > 0 && (
+          <div className="mt-8">
+            <h2 className="font-display text-xl mb-4">Build Log</h2>
+            <Timeline entries={project.timeline} />
+          </div>
+        )}
         <article className="prose mt-8 pl-6 font-body">
           <ReactMarkdown>{project.content}</ReactMarkdown>
         </article>
