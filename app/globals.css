@@ -29,3 +29,41 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body);
 }
+
+.case-study article h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--color-ledger);
+}
+
+.case-study article h2:first-child {
+  margin-top: 0;
+}
+
+.case-study article p {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.case-study article ul,
+.case-study article ol {
+  margin-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.case-study article li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+.case-study article strong {
+  color: var(--color-ledger);
+  font-weight: 600;
+}

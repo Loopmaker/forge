@@ -49,7 +49,7 @@ export default async function ProjectPage({
             <Timeline entries={project.timeline} />
           </div>
         )}
-        <article className="prose mt-8 pl-6 font-body">
+        <article className="case-study mt-8 pl-6">
           <ReactMarkdown>{project.content}</ReactMarkdown>
         </article>
       </div>

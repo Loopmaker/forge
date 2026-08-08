@@ -1,4 +1,3 @@
-import { getAllProjects } from "@/lib/projects";
 export default function Home() {
   return (
     <div className="min-h-screen paper-grid">
