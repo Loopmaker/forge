@@ -17,7 +17,9 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
         {sorted.map((entry, i) => (
           <li key={i} className="relative">
             <span className="absolute -left-6.75 top-1.5 w-2 h-2 rounded-full bg-ledger" />
-            <p className="font-mono text-xs text-ink-faded">{entry.date}</p>
+            <p className="font-mono text-xs text-ink-faded">
+              {entry.date.toISOString().split("T")[0]}
+            </p>
             <p className="font-body text-ink mt-0.5">{entry.label}</p>
           </li>
         ))}

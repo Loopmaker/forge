@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  status      String    @default("draft")
+  tags        String[]
+  startDate   DateTime
+  lastUpdated DateTime  @updatedAt
+  summary     String
+  content     String    @db.Text
+  timeline    TimelineEntry[]
+}
+
+model TimelineEntry {
+  id        String   @id @default(cuid())
+  date      DateTime
+  label     String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+}

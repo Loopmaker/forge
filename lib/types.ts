@@ -1,21 +1,20 @@
 export type ProjectStatus = "draft" | "published";
 
 export interface TimelineEntry {
-  date: string;
+  id: string;
+  date: Date;
   label: string;
 }
 
-export interface ProjectFrontmatter {
+export interface Project {
+  id: string;
   title: string;
   slug: string;
   status: ProjectStatus;
   tags: string[];
-  startDate: string;
-  lastUpdated: string;
+  startDate: Date;
+  lastUpdated: Date;
   summary: string;
-  timeline: TimelineEntry[];
-}
-
-export interface Project extends ProjectFrontmatter {
   content: string;
+  timeline: TimelineEntry[];
 }

@@ -5,7 +5,7 @@ import { Stamp } from "@/components/Stamp";
 import { Timeline } from "@/components/Timeline";
 
 export async function generateStaticParams() {
-  const projects = getAllProjects();
+  const projects = await getAllProjects();
   return projects.map((project) => ({ project: project.slug }));
 }
 
@@ -15,7 +15,7 @@ export default async function ProjectPage({
   params: Promise<{ project: string }>;
 }) {
   const { project: slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -28,7 +28,8 @@ export default async function ProjectPage({
           <h1 className="font-display text-4xl font-medium">{project.title}</h1>
           <div className="flex items-center gap-3 mt-2">
             <p className="font-mono text-xs text-ink-faded">
-              {project.startDate} → {project.lastUpdated}
+              {project.startDate.toISOString().split("T")[0]} →{" "}
+              {project.lastUpdated.toISOString().split("T")[0]}
             </p>
             <Stamp status={project.status} />
           </div>

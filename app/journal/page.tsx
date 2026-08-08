@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getAllProjects } from "@/lib/projects";
 
-export default function JournalPage() {
-  const projects = getAllProjects();
+export default async function JournalPage() {
+  const projects = await getAllProjects();
 
   return (
     <div className="min-h-screen paper-grid">
@@ -19,7 +19,8 @@ export default function JournalPage() {
               <h2 className="font-display text-2xl">{project.title}</h2>
               <p className="font-body text-ink-faded mt-1">{project.summary}</p>
               <p className="font-mono text-xs text-ink-faded mt-2">
-                {project.lastUpdated} · {project.status}
+                {project.lastUpdated.toISOString().split("T")[0]} ·{" "}
+                {project.status}
               </p>
             </Link>
           ))}

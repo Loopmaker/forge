@@ -1,30 +1,20 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import { Project, ProjectFrontmatter } from "./types";
+import { prisma } from "./prisma";
+import { Project } from "./types";
 
-const projectsDirectory = path.join(process.cwd(), "content/projects");
-
-export function getAllProjects(): Project[] {
-  const filenames = fs.readdirSync(projectsDirectory);
-
-  const projects = filenames.map((filename) => {
-    const filePath = path.join(projectsDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data, content } = matter(fileContents);
-
-    return {
-      ...(data as ProjectFrontmatter),
-      content,
-    };
+export async function getAllProjects(): Promise<Project[]> {
+  const projects = await prisma.project.findMany({
+    include: { timeline: true },
+    orderBy: { lastUpdated: "desc" },
   });
 
-  return projects.sort(
-    (a, b) =>
-      new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime(),
-  );
+  return projects as Project[];
 }
 
-export function getProjectBySlug(slug: string): Project | undefined {
-  return getAllProjects().find((project) => project.slug === slug);
+export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  const project = await prisma.project.findUnique({
+    where: { slug },
+    include: { timeline: true },
+  });
+
+  return project as Project | null;
 }
