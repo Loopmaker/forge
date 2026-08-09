@@ -1,6 +1,6 @@
 import { Fraunces, Public_Sans, JetBrains_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
-
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
@@ -27,7 +27,7 @@ export default function RootLayout({
       <body
         className={`${fraunces.variable} ${publicSans.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        {children}
+        <ClerkProvider>{children}</ClerkProvider>
       </body>
     </html>
   );
