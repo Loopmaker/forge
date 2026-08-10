@@ -43,3 +43,55 @@ export async function createProject(formData: FormData) {
   revalidatePath("/journal");
   redirect("/dashboard");
 }
+
+export async function updateProject(formData: FormData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const id = formData.get("id") as string;
+  const title = formData.get("title") as string;
+  const status = formData.get("status") as string;
+  const tagsRaw = formData.get("tags") as string;
+  const summary = formData.get("summary") as string;
+  const content = formData.get("content") as string;
+
+  const tags = tagsRaw
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+  await prisma.project.update({
+    where: { id },
+    data: {
+      title,
+      status,
+      tags,
+      summary,
+      content,
+    },
+  });
+
+  revalidatePath("/journal");
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
+}
+
+export async function deleteProject(formData: FormData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const id = formData.get("id") as string;
+
+  await prisma.project.delete({
+    where: { id },
+  });
+
+  revalidatePath("/journal");
+  revalidatePath("/dashboard");
+}

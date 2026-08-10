@@ -1,6 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
+import { getAllProjects } from "@/lib/projects";
+import { Stamp } from "@/components/Stamp";
+import { DeleteButton } from "@/components/DeleteButton";
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -8,6 +11,8 @@ export default async function DashboardPage() {
   if (!userId) {
     redirect("/sign-in");
   }
+
+  const projects = await getAllProjects();
 
   return (
     <div className="min-h-screen paper-grid">
@@ -24,9 +29,29 @@ export default async function DashboardPage() {
             <UserButton />
           </div>
         </div>
-        <p className="font-body text-ink-faded mt-2">
-          Signed in — this is the protected area.
-        </p>
+
+        <div className="mt-8 space-y-4">
+          {projects.map((project) => (
+            <div
+              key={project.slug}
+              className="flex items-center justify-between border-l-4 border-ledger pl-4 py-2"
+            >
+              <div className="flex items-center gap-3">
+                <span className="font-display text-lg">{project.title}</span>
+                <Stamp status={project.status} />
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href={`/dashboard/${project.slug}/edit`}
+                  className="font-mono text-xs uppercase tracking-widest text-ink-faded hover:text-ink"
+                >
+                  Edit
+                </a>
+                <DeleteButton id={project.id} title={project.title} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

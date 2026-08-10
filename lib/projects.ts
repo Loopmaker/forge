@@ -1,8 +1,23 @@
 import { prisma } from "./prisma";
 import { Project } from "./types";
 
-export async function getAllProjects(): Promise<Project[]> {
+export async function getAllProjects(filters?: {
+  tag?: string;
+  query?: string;
+}): Promise<Project[]> {
   const projects = await prisma.project.findMany({
+    where: {
+      ...(filters?.tag ? { tags: { has: filters.tag } } : {}),
+      ...(filters?.query
+        ? {
+            OR: [
+              { title: { contains: filters.query, mode: "insensitive" } },
+              { summary: { contains: filters.query, mode: "insensitive" } },
+              { content: { contains: filters.query, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
     include: { timeline: true },
     orderBy: { lastUpdated: "desc" },
   });
