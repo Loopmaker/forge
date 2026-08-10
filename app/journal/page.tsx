@@ -34,23 +34,31 @@ export default async function JournalPage({
           </div>
         )}
 
-        <div className="space-y-6">
-          {projects.map((project) => (
-            <Link
-              key={project.slug}
-              href={`/journal/${project.slug}`}
-              className="block border-l-4 border-ledger pl-6 py-2 hover:bg-cream-dim transition-colors"
-            >
-              <h2 className="font-display text-2xl">{project.title}</h2>
-              <p className="font-body text-ink-faded mt-1">{project.summary}</p>
-              <TagPills tags={project.tags} />
-              <p className="font-mono text-xs text-ink-faded mt-2">
-                {project.lastUpdated.toISOString().split("T")[0]} ·{" "}
-                {project.status}
-              </p>
-            </Link>
-          ))}
-        </div>
+        {projects.length === 0 ? (
+          <p className="font-body text-ink-faded pl-6 border-l-4 border-ledger py-4">
+            No entries found{q ? ` for "${q}"` : ""}.
+          </p>
+        ) : (
+          <div className="space-y-6">
+            {projects.map((project) => (
+              <Link
+                key={project.slug}
+                href={`/journal/${project.slug}`}
+                className="block border-l-4 border-ledger pl-6 py-2 hover:bg-cream-dim transition-colors"
+              >
+                <h2 className="font-display text-2xl">{project.title}</h2>
+                <p className="font-body text-ink-faded mt-1">
+                  {project.summary}
+                </p>
+                <TagPills tags={project.tags} />
+                <p className="font-mono text-xs text-ink-faded mt-2">
+                  {project.lastUpdated.toISOString().split("T")[0]} ·{" "}
+                  {project.status}
+                </p>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -22,9 +22,10 @@ export default async function DashboardPage() {
           <div className="flex items-center gap-4">
             <a
               href="/dashboard/new"
-              className="font-mono text-xs uppercase tracking-widest px-3 py-1.5 border-2 border-ledger text-ledger rounded-sm"
+              className="font-mono text-xs uppercase tracking-widest px-3 py-1.5 border-2 border-ledger text-ledger rounded-sm whitespace-nowrap"
             >
-              + New Entry
+              <span className="sm:hidden">+</span>
+              <span className="hidden sm:inline">+ New Entry</span>
             </a>
             <UserButton />
           </div>
@@ -34,7 +35,7 @@ export default async function DashboardPage() {
           {projects.map((project) => (
             <div
               key={project.slug}
-              className="flex items-center justify-between border-l-4 border-ledger pl-4 py-2"
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-l-4 border-ledger pl-4 py-3"
             >
               <div className="flex items-center gap-3">
                 <span className="font-display text-lg">{project.title}</span>
