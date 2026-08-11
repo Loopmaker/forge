@@ -3,6 +3,30 @@ import ReactMarkdown from "react-markdown";
 import { getProjectBySlug, getAllProjects } from "@/lib/projects";
 import { Stamp } from "@/components/Stamp";
 import { Timeline } from "@/components/Timeline";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ project: string }>;
+}): Promise<Metadata> {
+  const { project: slug } = await params;
+  const project = await getProjectBySlug(slug);
+
+  if (!project || project.status !== "published") {
+    return { title: "Not found" };
+  }
+
+  return {
+    title: project.title,
+    description: project.summary,
+    openGraph: {
+      title: project.title,
+      description: project.summary,
+      type: "article",
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const projects = await getAllProjects();
@@ -17,7 +41,7 @@ export default async function ProjectPage({
   const { project: slug } = await params;
   const project = await getProjectBySlug(slug);
 
-  if (!project) {
+  if (!project || project.status !== "published") {
     notFound();
   }
 

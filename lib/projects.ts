@@ -4,9 +4,11 @@ import { Project } from "./types";
 export async function getAllProjects(filters?: {
   tag?: string;
   query?: string;
+  publishedOnly?: boolean;
 }): Promise<Project[]> {
   const projects = await prisma.project.findMany({
     where: {
+      ...(filters?.publishedOnly ? { status: "published" } : {}),
       ...(filters?.tag ? { tags: { has: filters.tag } } : {}),
       ...(filters?.query
         ? {

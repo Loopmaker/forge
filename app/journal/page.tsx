@@ -8,7 +8,7 @@ export default async function JournalPage({
   searchParams: Promise<{ tag?: string; q?: string }>;
 }) {
   const { tag, q } = await searchParams;
-  const projects = await getAllProjects({ tag, query: q });
+  const projects = await getAllProjects({ tag, query: q, publishedOnly: true });
 
   return (
     <div className="min-h-screen paper-grid">

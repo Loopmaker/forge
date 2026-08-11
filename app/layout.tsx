@@ -1,6 +1,16 @@
 import { Fraunces, Public_Sans, JetBrains_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import type { Metadata } from "next";
 import "./globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Forge — Behind every build",
+    template: "%s | Forge",
+  },
+  description:
+    "A developer journal documenting real projects — architecture decisions, trade-offs, and lessons learned.",
+};
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",

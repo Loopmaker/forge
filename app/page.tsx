@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getAllProjects } from "@/lib/projects";
 
 export default async function Home() {
-  const projects = await getAllProjects();
+  const projects = await getAllProjects({ publishedOnly: true });
 
   return (
     <div className="min-h-screen paper-grid">
